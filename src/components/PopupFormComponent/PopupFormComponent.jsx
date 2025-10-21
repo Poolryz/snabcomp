@@ -1,27 +1,43 @@
+import { useState } from "react";
 import "./PopupFormComponent.scss";
-function PopupFormComponent({ onSubmit, onCancel, initialData = {} }) {
+function PopupFormComponent({ onSubmit, onCancel }) {
+  const [inputData, setInputData] = useState({});
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setInputData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(inputData);
+  };
   return (
-    <form className="popup-form" onSubmit={onSubmit}>
+    <form className="popup-form">
       <div className="popup-form__content">
         <div className="popup-form__row">
           <div className="popup-form__field">
-            <label className="popup-form__label">Дата счета *</label>
+            <label className="popup-form__label">Дата счета</label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="date"
               name="invoiceDate"
-              defaultValue={initialData.invoiceDate}
               required
             />
           </div>
 
           <div className="popup-form__field">
-            <label className="popup-form__label">Организация *</label>
+            <label className="popup-form__label">Организация </label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="text"
               name="organization"
-              defaultValue={initialData.organization}
               placeholder="Введите название организации"
               required
             />
@@ -30,24 +46,28 @@ function PopupFormComponent({ onSubmit, onCancel, initialData = {} }) {
 
         <div className="popup-form__row">
           <div className="popup-form__field">
-            <label className="popup-form__label">№ счета *</label>
+            <label className="popup-form__label">№ счета </label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="text"
               name="invoiceNumber"
-              defaultValue={initialData.invoiceNumber}
               placeholder="Например: INV-001"
               required
             />
           </div>
 
           <div className="popup-form__field">
-            <label className="popup-form__label">Сумма *</label>
+            <label className="popup-form__label">Сумма </label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="text"
               name="amount"
-              defaultValue={initialData.amount}
               placeholder="Например: 15 000 ₽"
               required
             />
@@ -58,20 +78,25 @@ function PopupFormComponent({ onSubmit, onCancel, initialData = {} }) {
           <div className="popup-form__field">
             <label className="popup-form__label">Дата оплаты</label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="date"
               name="paymentDate"
-              defaultValue={initialData.paymentDate}
+              required
             />
           </div>
 
           <div className="popup-form__field">
-            <label className="popup-form__label">Ответственный *</label>
+            <label className="popup-form__label">Ответственный </label>
             <input
+              onChange={(e) => {
+                handleChange(e);
+              }}
               className="popup-form__input"
               type="text"
               name="responsible"
-              defaultValue={initialData.responsible}
               placeholder="ФИО ответственного"
               required
             />
@@ -81,9 +106,11 @@ function PopupFormComponent({ onSubmit, onCancel, initialData = {} }) {
         <div className="popup-form__field">
           <label className="popup-form__label">Примечание</label>
           <textarea
+            onChange={(e) => {
+              handleChange(e);
+            }}
             className="popup-form__textarea"
             name="note"
-            defaultValue={initialData.note}
             placeholder="Дополнительная информация"
             rows="3"
           />
@@ -101,6 +128,9 @@ function PopupFormComponent({ onSubmit, onCancel, initialData = {} }) {
         <button
           className="popup-form__button popup-form__button--submit"
           type="submit"
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
         >
           Сохранить
         </button>

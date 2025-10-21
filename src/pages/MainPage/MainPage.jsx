@@ -1,9 +1,9 @@
-import "./MainPage.scss";
-import TableComponent from "../../components/TableComponent/TableComponent.jsx";
-import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useEffect, useState } from "react";
+import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import PopupComponent from "../../components/PopupComponent/PopupComponent.jsx";
 import PopupFormComponent from "../../components/PopupFormComponent/PopupFormComponent.jsx";
+import TableComponent from "../../components/TableComponent/TableComponent.jsx";
+import "./MainPage.scss";
 
 function MainPage() {
   const [actualData, setActualData] = useState([]);
@@ -39,11 +39,20 @@ function MainPage() {
   function handleClosePopup() {
     setIsPopupOpen(false);
   }
+  function handlerSubmitForm(data) {
+    data.id = 3;
+    setActualData((prev) => {
+      return [...prev, data];
+    });
+  }
 
   return (
     <>
       <PopupComponent isOpen={isPopupOpen} onClose={handleClosePopup}>
-        <PopupFormComponent onCancel={handleClosePopup} />
+        <PopupFormComponent
+          onCancel={handleClosePopup}
+          onSubmit={handlerSubmitForm}
+        />
       </PopupComponent>
       <TableComponent data={actualData} />
       <ButtonComponent onClick={handleOpenPopup}>
