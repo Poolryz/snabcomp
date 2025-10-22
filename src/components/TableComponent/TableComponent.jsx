@@ -19,10 +19,7 @@ function TableComponent({ data }) {
           </thead>
           <tbody className="table__body">
             {data.map((item, index) => (
-              <tr
-                key={item.id || index}
-                className="table__row table__row--body"
-              >
+              <tr key={item.id} className="table__row table__row--body">
                 <td className="table__cell table__cell--body">{index + 1}</td>
                 <td className="table__cell table__cell--body">
                   {item.invoiceDate}
