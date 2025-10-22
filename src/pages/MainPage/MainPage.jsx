@@ -9,6 +9,9 @@ function MainPage() {
   const [actualData, setActualData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   useEffect(() => {
+    handleGetData();
+  }, []);
+  function handleGetData() {
     fetch("http://localhost:3000/api/invoices", {
       method: "GET",
       headers: {
@@ -20,7 +23,21 @@ function MainPage() {
         return setActualData(data);
       })
       .catch((error) => console.log(error.message));
-  }, []);
+  }
+  function handlerSubmitForm(data) {
+    fetch("http://localhost:3000/api/invoices", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        handleGetData();
+        return res.json();
+      })
+      .catch((error) => console.error(error));
+  }
 
   function handleOpenPopup() {
     setIsPopupOpen(true);
@@ -33,7 +50,7 @@ function MainPage() {
       <PopupComponent isOpen={isPopupOpen} onClose={handleClosePopup}>
         <PopupFormComponent
           onCancel={handleClosePopup}
-          // onSubmit={handlerSubmitForm}
+          onSubmit={handlerSubmitForm}
         />
       </PopupComponent>
       <TableComponent data={actualData} />

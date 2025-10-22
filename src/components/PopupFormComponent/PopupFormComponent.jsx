@@ -1,7 +1,15 @@
 import { useState } from "react";
 import "./PopupFormComponent.scss";
 function PopupFormComponent({ onSubmit, onCancel }) {
-  const [inputData, setInputData] = useState({});
+  const [inputData, setInputData] = useState({
+    invoiceDate: "",
+    organization: "",
+    invoiceNumber: "",
+    amount: "",
+    paymentDate: "",
+    responsible: "",
+    note: "",
+  });
   function handleChange(e) {
     const { name, value } = e.target;
     setInputData((prev) => {
@@ -11,6 +19,15 @@ function PopupFormComponent({ onSubmit, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(inputData);
+    setInputData({
+      invoiceDate: "",
+      organization: "",
+      invoiceNumber: "",
+      amount: "",
+      paymentDate: "",
+      responsible: "",
+      note: "",
+    });
   };
   return (
     <form className="popup-form">
@@ -25,6 +42,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               className="popup-form__input"
               type="date"
               name="invoiceDate"
+              value={inputData.invoiceDate}
               required
             />
           </div>
@@ -39,6 +57,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               type="text"
               name="organization"
               placeholder="Введите название организации"
+              value={inputData.organization}
               required
             />
           </div>
@@ -55,6 +74,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               type="text"
               name="invoiceNumber"
               placeholder="Например: INV-001"
+              value={inputData.invoiceNumber}
               required
             />
           </div>
@@ -69,6 +89,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               type="text"
               name="amount"
               placeholder="Например: 15 000 ₽"
+              value={inputData.amount}
               required
             />
           </div>
@@ -84,6 +105,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               className="popup-form__input"
               type="date"
               name="paymentDate"
+              value={inputData.paymentDate}
               required
             />
           </div>
@@ -98,6 +120,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               type="text"
               name="responsible"
               placeholder="ФИО ответственного"
+              value={inputData.responsible}
               required
             />
           </div>
@@ -112,6 +135,7 @@ function PopupFormComponent({ onSubmit, onCancel }) {
             className="popup-form__textarea"
             name="note"
             placeholder="Дополнительная информация"
+            value={inputData.note}
             rows="3"
           />
         </div>
