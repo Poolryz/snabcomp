@@ -9,30 +9,42 @@ function MainPage() {
   const [actualData, setActualData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   useEffect(() => {
-    setActualData(featchdata);
+    fetch("http://localhost:3000/api/invoices", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.dir(`Данные пришли:${data}`);
+        return setActualData(data);
+      })
+      .catch((error) => console.log(error.message));
   }, []);
-  const featchdata = [
-    {
-      id: 1,
-      invoiceDate: "2024-01-15",
-      organization: 'ООО "Ромашка"',
-      invoiceNumber: "INV-001",
-      amount: "15 000 ₽",
-      paymentDate: "2024-01-20",
-      responsible: "Иванов И.И.",
-      note: "Оплата за услуги",
-    },
-    {
-      id: 2,
-      invoiceDate: "2024-01-16",
-      organization: 'АО "Луч"',
-      invoiceNumber: "INV-002",
-      amount: "25 500 ₽",
-      paymentDate: "2024-01-25",
-      responsible: "Петров П.П.",
-      note: "Предоплата 50%",
-    },
-  ];
+
+  // const featchdata = [
+  //   {
+  //     id: 1,
+  //     invoiceDate: "2024-01-15",
+  //     organization: 'ООО "Ромашка"',
+  //     invoiceNumber: "INV-001",
+  //     amount: "15 000 ₽",
+  //     paymentDate: "2024-01-20",
+  //     responsible: "Иванов И.И.",
+  //     note: "Оплата за услуги",
+  //   },
+  //   {
+  //     id: 2,
+  //     invoiceDate: "2024-01-16",
+  //     organization: 'АО "Луч"',
+  //     invoiceNumber: "INV-002",
+  //     amount: "25 500 ₽",
+  //     paymentDate: "2024-01-25",
+  //     responsible: "Петров П.П.",
+  //     note: "Предоплата 50%",
+  //   },
+  // ];
   function handleOpenPopup() {
     setIsPopupOpen(true);
   }
