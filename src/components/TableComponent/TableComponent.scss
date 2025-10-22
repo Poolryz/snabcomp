@@ -41,6 +41,11 @@
     text-align: left;
     font-size: 14px;
     line-height: 1.4;
+    &--actions {
+      width: 80px;
+      text-align: center;
+      padding: 12px 8px;
+    }
 
     &--header {
       font-weight: 600;
@@ -83,6 +88,36 @@
       min-width: 200px;
     }
   }
+  &__actions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  &__delete-btn {
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #ff3742;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Показываем кнопку при наведении на строку
+  &__row--body:hover {
+    .table__actions {
+      opacity: 1;
+    }
+  }
 
   &__empty {
     padding: 40px 20px;
@@ -97,7 +132,15 @@
 @media (max-width: 768px) {
   .table {
     border-radius: 4px;
+    &__cell--actions {
+      width: 60px;
+      padding: 8px 6px;
+    }
 
+    &__delete-btn {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
     &__cell {
       padding: 8px 12px;
       font-size: 13px;
@@ -116,6 +159,13 @@
     background-color: #1e1e1e;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
+    &__delete-btn {
+      background: #ff6b81;
+
+      &:hover {
+        background: #ff4757;
+      }
+    }
     &__header {
       background-color: #2d2d2d;
     }

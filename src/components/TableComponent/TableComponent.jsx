@@ -15,6 +15,9 @@ function TableComponent({ data }) {
               <th className="table__cell table__cell--header">Дата оплаты</th>
               <th className="table__cell table__cell--header">Ответственный</th>
               <th className="table__cell table__cell--header">Примечание</th>
+              <th className="table__cell table__cell--header table__cell--actions">
+                Действия
+              </th>
             </tr>
           </thead>
           <tbody className="table__body">
@@ -38,6 +41,11 @@ function TableComponent({ data }) {
                   {item.responsible}
                 </td>
                 <td className="table__cell table__cell--body">{item.note}</td>
+                <td className="table__cell table__cell--body table__cell--actions">
+                  <div className="table__actions">
+                    <button className="table__delete-btn">Удалить</button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
