@@ -111,6 +111,41 @@
       transform: translateY(0);
     }
   }
+  &__action-btn {
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 2px;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__edit-btn {
+    background: #2ed573;
+    color: white;
+
+    &:hover {
+      background: #25c562;
+    }
+  }
+
+  &__delete-btn {
+    background: #ff4757;
+    color: white;
+
+    &:hover {
+      background: #ff3742;
+    }
+  }
 
   // Показываем кнопку при наведении на строку
   &__row--body:hover {
@@ -149,6 +184,11 @@
         font-size: 13px;
       }
     }
+    &__action-btn {
+      padding: 4px 8px;
+      font-size: 11px;
+      margin: 0 1px;
+    }
   }
 }
 
@@ -166,6 +206,22 @@
         background: #ff4757;
       }
     }
+    &__edit-btn {
+      background: #26c46a;
+
+      &:hover {
+        background: #20b15c;
+      }
+    }
+
+    &__delete-btn {
+      background: #ff6b81;
+
+      &:hover {
+        background: #ff4757;
+      }
+    }
+
     &__header {
       background-color: #2d2d2d;
     }

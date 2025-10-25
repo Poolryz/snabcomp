@@ -8,9 +8,31 @@ import "./MainPage.scss";
 function MainPage() {
   const [actualData, setActualData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [initialData, setInitialData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
   useEffect(() => {
     handleGetData();
   }, []);
+  function handleSetForm(id) {
+    const data = actualData.find((item) => {
+      return item.id == id;
+    });
+    console.log(data);
+
+    setInitialData(data);
+    setIsEditing(true);
+    setIsPopupOpen(true);
+  }
+  function handleDeleteItem(id) {
+    fetch(`http://localhost:3000/api/invoices/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        return handleGetData();
+      })
+      .catch((error) => console.log(error));
+  }
   function handleGetData() {
     fetch("http://localhost:3000/api/invoices", {
       method: "GET",
@@ -24,7 +46,7 @@ function MainPage() {
       })
       .catch((error) => console.log(error.message));
   }
-  function handlerSubmitForm(data) {
+  function handleSubmitForm(data) {
     fetch("http://localhost:3000/api/invoices", {
       method: "POST",
       headers: {
@@ -38,22 +60,43 @@ function MainPage() {
       })
       .catch((error) => console.error(error));
   }
+  function handleEditingItem(id, data) {
+    fetch(`http://localhost:3000/api/invoices/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(() => handleGetData());
+  }
 
   function handleOpenPopup() {
     setIsPopupOpen(true);
   }
   function handleClosePopup() {
+    setIsEditing(false);
     setIsPopupOpen(false);
   }
   return (
     <>
-      <PopupComponent isOpen={isPopupOpen} onClose={handleClosePopup}>
+      <PopupComponent
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        title={isEditing ? "Редактировать запись" : "Добавить запись"}
+      >
         <PopupFormComponent
           onCancel={handleClosePopup}
-          onSubmit={handlerSubmitForm}
+          onSubmit={handleSubmitForm}
+          onEditing={handleEditingItem}
+          initialData={initialData}
+          editing={isEditing}
         />
       </PopupComponent>
-      <TableComponent data={actualData} />
+      <TableComponent
+        data={actualData}
+        deleteFunc={handleDeleteItem}
+        setForm={handleSetForm}
+      />
       <ButtonComponent onClick={handleOpenPopup}>
         Добавить строчку
       </ButtonComponent>

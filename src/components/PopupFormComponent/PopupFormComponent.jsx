@@ -1,25 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./PopupFormComponent.scss";
-function PopupFormComponent({ onSubmit, onCancel }) {
-  const [inputData, setInputData] = useState({
-    invoiceDate: "",
-    organization: "",
-    invoiceNumber: "",
-    amount: "",
-    paymentDate: "",
-    responsible: "",
-    note: "",
-  });
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setInputData((prev) => {
-      return { ...prev, [name]: value };
-    });
-  }
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(inputData);
-    setInputData({
+function PopupFormComponent({
+  onSubmit,
+  onCancel,
+  onEditing,
+  initialData,
+  editing,
+}) {
+  const [inputData, setInputData] = useState(
+    initialData || {
       invoiceDate: "",
       organization: "",
       invoiceNumber: "",
@@ -27,10 +16,37 @@ function PopupFormComponent({ onSubmit, onCancel }) {
       paymentDate: "",
       responsible: "",
       note: "",
+    }
+  );
+  useEffect(() => {
+    if (initialData) {
+      setInputData(initialData);
+    }
+  }, [initialData]);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setInputData((prev) => {
+      return { ...prev, [name]: value };
     });
+  }
+  const handleSubmit = (e) => {
+    if (!editing) {
+      e.preventDefault();
+      onSubmit(inputData);
+      onCancel();
+    } else {
+      e.preventDefault();
+      onEditing(inputData.id, inputData);
+      onCancel();
+    }
   };
   return (
-    <form className="popup-form">
+    <form
+      className="popup-form"
+      onSubmit={(e) => {
+        handleSubmit(e);
+      }}
+    >
       <div className="popup-form__content">
         <div className="popup-form__row">
           <div className="popup-form__field">
@@ -106,7 +122,6 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               type="date"
               name="paymentDate"
               value={inputData.paymentDate}
-              required
             />
           </div>
 
@@ -121,7 +136,6 @@ function PopupFormComponent({ onSubmit, onCancel }) {
               name="responsible"
               placeholder="ФИО ответственного"
               value={inputData.responsible}
-              required
             />
           </div>
         </div>
@@ -152,9 +166,6 @@ function PopupFormComponent({ onSubmit, onCancel }) {
         <button
           className="popup-form__button popup-form__button--submit"
           type="submit"
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
         >
           Сохранить
         </button>

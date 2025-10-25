@@ -1,6 +1,9 @@
 import "./TableComponent.scss";
 
-function TableComponent({ data }) {
+function TableComponent({ data, deleteFunc, setForm }) {
+  function handleDelete(e) {
+    deleteFunc(e.target.value);
+  }
   return (
     <>
       <div className="table">
@@ -43,7 +46,24 @@ function TableComponent({ data }) {
                 <td className="table__cell table__cell--body">{item.note}</td>
                 <td className="table__cell table__cell--body table__cell--actions">
                   <div className="table__actions">
-                    <button className="table__delete-btn">Удалить</button>
+                    <button
+                      className="table__action-btn table__edit-btn"
+                      value={item.id}
+                      onClick={(e) => {
+                        setForm(e.target.value);
+                      }}
+                    >
+                      Редактировать
+                    </button>
+                    <button
+                      className="table__delete-btn"
+                      value={item.id}
+                      onClick={(e) => {
+                        handleDelete(e);
+                      }}
+                    >
+                      Удалить
+                    </button>
                   </div>
                 </td>
               </tr>

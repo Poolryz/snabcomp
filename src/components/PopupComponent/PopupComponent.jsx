@@ -1,10 +1,5 @@
 import "./PopupComponent.scss";
-function PopupComponent({
-  isOpen,
-  onClose,
-  children,
-  title = "Добавить запись",
-}) {
+function PopupComponent({ isOpen, onClose, children, title }) {
   if (!isOpen) return null;
   return (
     <div className="popup">
