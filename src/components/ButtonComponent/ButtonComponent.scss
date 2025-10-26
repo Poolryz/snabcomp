@@ -42,6 +42,37 @@
     }
   }
 
+  // Новые вариации на основе табличных кнопок
+  &--danger {
+    background-color: #ff4757;
+    color: white;
+
+    &:hover:not(.button--disabled) {
+      background-color: #ff3742;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.button--disabled) {
+      background-color: #e84151;
+      transform: translateY(0);
+    }
+  }
+
+  &--success {
+    background-color: #2ed573;
+    color: white;
+
+    &:hover:not(.button--disabled) {
+      background-color: #25c562;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(.button--disabled) {
+      background-color: #20b15c;
+      transform: translateY(0);
+    }
+  }
+
   &--small {
     padding: 8px 12px;
     font-size: 14px;
@@ -57,17 +88,44 @@
     font-size: 16px;
   }
 
+  // Новый размер для табличных кнопок
+  &--xsmall {
+    padding: 6px 12px;
+    font-size: 12px;
+
+    @media (max-width: 768px) {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+  }
+
   &--disabled {
     background-color: #e9ecef;
     color: #6c757d;
     cursor: not-allowed;
     opacity: 0.6;
+
+    // Отключаем трансформации для disabled кнопок
+    &:hover,
+    &:active {
+      transform: none !important;
+    }
   }
 
   &__text {
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  // Новый модификатор для кнопок с уменьшенным скруглением
+  &--table {
+    border-radius: 4px;
+    margin: 0 2px;
+
+    @media (max-width: 768px) {
+      margin: 0 1px;
+    }
   }
 }
 
@@ -103,6 +161,30 @@
 
       &:active:not(.button--disabled) {
         background-color: #0a58ca;
+      }
+    }
+
+    &--danger {
+      background-color: #ff6b81;
+
+      &:hover:not(.button--disabled) {
+        background-color: #ff4757;
+      }
+
+      &:active:not(.button--disabled) {
+        background-color: #e84151;
+      }
+    }
+
+    &--success {
+      background-color: #26c46a;
+
+      &:hover:not(.button--disabled) {
+        background-color: #20b15c;
+      }
+
+      &:active:not(.button--disabled) {
+        background-color: #1da152;
       }
     }
 

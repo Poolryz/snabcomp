@@ -58,7 +58,7 @@ function PopupFormComponent({
               className="popup-form__input"
               type="date"
               name="invoiceDate"
-              value={inputData.invoiceDate}
+              value={inputData.invoiceDate || ""}
               required
             />
           </div>
@@ -73,7 +73,7 @@ function PopupFormComponent({
               type="text"
               name="organization"
               placeholder="Введите название организации"
-              value={inputData.organization}
+              value={inputData.organization || ""}
               required
             />
           </div>
@@ -90,7 +90,7 @@ function PopupFormComponent({
               type="text"
               name="invoiceNumber"
               placeholder="Например: INV-001"
-              value={inputData.invoiceNumber}
+              value={inputData.invoiceNumber || ""}
               required
             />
           </div>
@@ -105,7 +105,7 @@ function PopupFormComponent({
               type="text"
               name="amount"
               placeholder="Например: 15 000 ₽"
-              value={inputData.amount}
+              value={inputData.amount || ""}
               required
             />
           </div>
@@ -121,7 +121,7 @@ function PopupFormComponent({
               className="popup-form__input"
               type="date"
               name="paymentDate"
-              value={inputData.paymentDate}
+              value={inputData.paymentDate || ""}
             />
           </div>
 
@@ -135,7 +135,7 @@ function PopupFormComponent({
               type="text"
               name="responsible"
               placeholder="ФИО ответственного"
-              value={inputData.responsible}
+              value={inputData.responsible || ""}
             />
           </div>
         </div>
@@ -149,7 +149,7 @@ function PopupFormComponent({
             className="popup-form__textarea"
             name="note"
             placeholder="Дополнительная информация"
-            value={inputData.note}
+            value={inputData.note || ""}
             rows="3"
           />
         </div>

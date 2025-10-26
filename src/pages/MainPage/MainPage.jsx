@@ -17,7 +17,6 @@ function MainPage() {
     const data = actualData.find((item) => {
       return item.id == id;
     });
-    console.log(data);
 
     setInitialData(data);
     setIsEditing(true);
@@ -97,7 +96,7 @@ function MainPage() {
         deleteFunc={handleDeleteItem}
         setForm={handleSetForm}
       />
-      <ButtonComponent onClick={handleOpenPopup}>
+      <ButtonComponent variant="primary" onClick={handleOpenPopup}>
         Добавить строчку
       </ButtonComponent>
     </>
