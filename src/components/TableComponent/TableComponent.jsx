@@ -2,9 +2,6 @@ import RowTableComponent from "../RowTableComponent/RowTableComponent.jsx";
 import "./TableComponent.scss";
 
 function TableComponent({ data, deleteFunc, setForm }) {
-  function handleDelete(id) {
-    deleteFunc(id);
-  }
   const formColumnsHeader = [
     "№",
     "Дата счета",
@@ -36,7 +33,7 @@ function TableComponent({ data, deleteFunc, setForm }) {
                 item={item}
                 index={index}
                 setForm={setForm}
-                deleteFunc={handleDelete}
+                deleteFunc={deleteFunc}
               />
             ))}
           </tbody>

@@ -3,70 +3,26 @@ import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import PopupComponent from "../../components/PopupComponent/PopupComponent.jsx";
 import PopupFormComponent from "../../components/PopupFormComponent/PopupFormComponent.jsx";
 import TableComponent from "../../components/TableComponent/TableComponent.jsx";
+import useApi from "../../hooks/useApi.js";
 import "./MainPage.scss";
 
 function MainPage() {
-  const [actualData, setActualData] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [initialData, setInitialData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const { loading, error, data, get, post, put, del } = useApi();
   useEffect(() => {
-    handleGetData();
+    get();
   }, []);
+
   function handleSetForm(id) {
-    const data = actualData.find((item) => {
+    const findData = data.find((item) => {
       return item.id == id;
     });
 
-    setInitialData(data);
+    setInitialData(findData);
     setIsEditing(true);
     setIsPopupOpen(true);
-  }
-  function handleDeleteItem(id) {
-    fetch(`http://localhost:3000/api/invoices/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then(() => {
-        return handleGetData();
-      })
-      .catch((error) => console.log(error));
-  }
-  function handleGetData() {
-    fetch("http://localhost:3000/api/invoices", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        return setActualData(data);
-      })
-      .catch((error) => console.log(error.message));
-  }
-  function handleSubmitForm(data) {
-    fetch("http://localhost:3000/api/invoices", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        handleGetData();
-        return res.json();
-      })
-      .catch((error) => console.error(error));
-  }
-  function handleEditingItem(id, data) {
-    fetch(`http://localhost:3000/api/invoices/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then(() => handleGetData());
   }
 
   function handleOpenPopup() {
@@ -85,20 +41,28 @@ function MainPage() {
       >
         <PopupFormComponent
           onCancel={handleClosePopup}
-          onSubmit={handleSubmitForm}
-          onEditing={handleEditingItem}
+          onSubmit={post}
+          onEditing={put}
           initialData={initialData}
           editing={isEditing}
         />
       </PopupComponent>
-      <TableComponent
-        data={actualData}
-        deleteFunc={handleDeleteItem}
-        setForm={handleSetForm}
-      />
-      <ButtonComponent variant="primary" onClick={handleOpenPopup}>
-        Добавить строчку
-      </ButtonComponent>
+      {loading ? (
+        "Загрузка ..."
+      ) : (
+        <>
+          {" "}
+          <TableComponent
+            data={data}
+            deleteFunc={del}
+            setForm={handleSetForm}
+          />{" "}
+          <ButtonComponent variant="primary" onClick={handleOpenPopup}>
+            Добавить строчку
+          </ButtonComponent>
+        </>
+      )}
+      {error ? "Ошибка загрузки" : null}
     </>
   );
 }
