@@ -1,5 +1,5 @@
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
-function RowTableComponent({ item, index, setForm, deleteFunc }) {
+function RowTableComponent({ item, index, setForm, deleteFunc, setPopupView }) {
   const formatInvoiceDate = new Date(item.invoiceDate).toLocaleDateString(
     "ru-RU"
   );
@@ -23,6 +23,7 @@ function RowTableComponent({ item, index, setForm, deleteFunc }) {
             variant="success"
             value={item.id}
             onClick={() => {
+              setPopupView("form");
               setForm(item.id);
             }}
           >

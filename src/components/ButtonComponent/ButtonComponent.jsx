@@ -10,8 +10,8 @@ function ButtonComponent({
   return (
     <button
       className={`
-        button 
-        button--${variant} 
+        button
+        button--${variant}
         button--${size}
         ${disabled ? "button--disabled" : ""}
       `}
