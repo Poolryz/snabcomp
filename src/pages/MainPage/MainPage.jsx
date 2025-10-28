@@ -13,7 +13,7 @@ function MainPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [popupView, setPopupView] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
-  const { loading, error, data, get, post, put, del } = useApi();
+  const { loading, error, data, get, post, patch, del } = useApi();
   useEffect(() => {
     get();
   }, []);
@@ -48,6 +48,7 @@ function MainPage() {
       });
     setFilteredData(filtered);
   }
+
   return (
     <>
       <PopupComponent
@@ -59,7 +60,7 @@ function MainPage() {
           <PopupFormComponent
             onCancel={handleClosePopup}
             onSubmit={post}
-            onEditing={put}
+            onEditing={patch}
             initialData={initialData}
             editing={isEditing}
           />

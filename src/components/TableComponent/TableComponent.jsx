@@ -10,6 +10,7 @@ function TableComponent({ data, deleteFunc, setForm, setPopupView }) {
     "Сумма",
     "Дата оплаты",
     "Ответственный",
+    "Файлы",
     "Примечание",
     "Действия",
   ];

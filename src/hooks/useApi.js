@@ -25,10 +25,7 @@ function useApi() {
 
     fetch("http://localhost:3000/api/invoices", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+      body: body,
     })
       .then((res) => res.json())
       .then(() => {
@@ -37,15 +34,12 @@ function useApi() {
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };
-  const put = (id, body) => {
+  const patch = (id, body) => {
     setLoading(true);
 
     fetch(`http://localhost:3000/api/invoices/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+      method: "PATCH",
+      body: body,
     })
       .then((res) => res.json())
       .then(() => {
@@ -71,6 +65,6 @@ function useApi() {
       .finally(() => setLoading(false));
   };
 
-  return { loading, error, data, get, post, put, del };
+  return { loading, error, data, get, post, patch, del };
 }
 export default useApi;

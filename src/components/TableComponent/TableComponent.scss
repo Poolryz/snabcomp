@@ -256,3 +256,35 @@
     }
   }
 }
+.file-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  text-decoration: none;
+  color: #495057;
+  font-size: 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    text-decoration: none;
+    color: #212529;
+  }
+}
+
+.no-files {
+  color: #6c757d;
+  font-style: italic;
+  font-size: 12px;
+}

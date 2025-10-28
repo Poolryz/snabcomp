@@ -15,6 +15,35 @@ function RowTableComponent({ item, index, setForm, deleteFunc, setPopupView }) {
       <td className="table__cell table__cell--body">{item.amount}</td>
       <td className="table__cell table__cell--body">{formatPaymentDate}</td>
       <td className="table__cell table__cell--body">{item.responsible}</td>
+      <td className="table__cell table__cell--body">
+        <div className="file-links">
+          {item.invoicePdfUrl && (
+            <a
+              href={`http://localhost:3000${item.invoicePdfUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="file-link"
+              title="Открыть счет"
+            >
+              📄 Счет
+            </a>
+          )}
+          {item.paymentPdfUrl && (
+            <a
+              href={`http://localhost:3000${item.paymentPdfUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="file-link"
+              title="Открыть платежку"
+            >
+              📄 Платежка
+            </a>
+          )}
+          {!item.invoicePdfUrl && !item.paymentPdfUrl && (
+            <span className="no-files">—</span>
+          )}
+        </div>
+      </td>
       <td className="table__cell table__cell--body">{item.note}</td>
       <td className="table__cell table__cell--body table__cell--actions">
         <div className="table__actions">
