@@ -47,6 +47,7 @@ function MainPage() {
         return yearItem == year;
       });
     setFilteredData(filtered);
+    handleClosePopup();
   }
 
   return (

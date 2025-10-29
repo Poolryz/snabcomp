@@ -4,16 +4,10 @@ import "./PopupFilterComponent.scss";
 
 function PopupFilterComponent({ onCancel, onFilter }) {
   const [filters, setFilters] = useState({ month: "", year: "2025" });
-  function handleChangeMonth(e) {
-    const month = e.target.value;
+  function handleChange(e) {
+    const { name, value } = e.target;
     setFilters((prev) => {
-      return { ...prev, month: month };
-    });
-  }
-  function handleChangeYear(e) {
-    const year = e.target.value;
-    setFilters((prev) => {
-      return { ...prev, year: year };
+      return { ...prev, [name]: value };
     });
   }
 
@@ -51,8 +45,9 @@ function PopupFilterComponent({ onCancel, onFilter }) {
                 className="date-filter__select"
                 value={filters.month}
                 onChange={(e) => {
-                  handleChangeMonth(e);
+                  handleChange(e);
                 }}
+                name="month"
               >
                 <option value="">Выберите месяц</option>
                 {months.map((month) => (
@@ -69,8 +64,9 @@ function PopupFilterComponent({ onCancel, onFilter }) {
                 className="date-filter__select"
                 value={filters.year}
                 onChange={(e) => {
-                  handleChangeYear(e);
+                  handleChange(e);
                 }}
+                name="year"
               >
                 <option value="">Выберите год</option>
                 {years.map((year) => (

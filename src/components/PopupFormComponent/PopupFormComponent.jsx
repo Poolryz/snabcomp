@@ -94,9 +94,6 @@ function PopupFormComponent({
 
     const formData = new FormData();
 
-    // Отладочная информация
-    console.log("inputData перед отправкой:", inputData);
-
     // Для PATCH запроса отправляем только измененные поля
     Object.keys(inputData).forEach((key) => {
       // Пропускаем поля, которые не должны отправляться в FormData
