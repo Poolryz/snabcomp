@@ -1,0 +1,174 @@
+.search {
+  width: 100%;
+  max-width: 500px;
+
+  &__content {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #bdbdbd;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    &:focus-within {
+      border-color: #2196f3;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+  }
+
+  &__input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+    min-width: 120px;
+
+    &:focus {
+      outline: none;
+      border-color: #2196f3;
+      background-color: #ffffff;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+  }
+
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  select {
+    padding: 8px 10px;
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #333;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #2196f3;
+    }
+
+    &:hover {
+      border-color: #bdbdbd;
+    }
+  }
+
+  // Анимация появления
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Адаптивность для планшетов
+@media (max-width: 1024px) {
+  .search {
+    max-width: 100%;
+
+    &__content {
+      gap: 10px;
+    }
+
+    &__field {
+      min-width: 130px;
+    }
+  }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+  .search {
+    &__content {
+      flex-wrap: wrap;
+    }
+
+    &__input {
+      min-width: 100%;
+      order: 1;
+    }
+
+    &__field {
+      flex: 1;
+      min-width: calc(50% - 6px);
+      order: 2;
+    }
+
+    &__field:first-of-type {
+      margin-right: 6px;
+    }
+  }
+}
+
+// Адаптивность для маленьких мобильных устройств
+@media (max-width: 480px) {
+  .search {
+    &__content {
+      padding: 10px;
+      gap: 8px;
+    }
+
+    &__field {
+      min-width: 100%;
+      order: 2;
+    }
+
+    &__field:first-of-type {
+      margin-right: 0;
+    }
+
+    &__input {
+      order: 1;
+    }
+  }
+}
+
+// Компактная версия для очень маленьких экранов
+@media (max-width: 360px) {
+  .search {
+    &__content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__input,
+    &__field {
+      min-width: 100%;
+    }
+  }
+}

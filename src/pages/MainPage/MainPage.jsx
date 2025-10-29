@@ -3,6 +3,7 @@ import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import PopupComponent from "../../components/PopupComponent/PopupComponent.jsx";
 import PopupFilterComponent from "../../components/PopupFilterComponent/PopupFilterComponent.jsx";
 import PopupFormComponent from "../../components/PopupFormComponent/PopupFormComponent.jsx";
+import SearchComponent from "../../components/SearchComponent/SearchComponent.jsx";
 import TableComponent from "../../components/TableComponent/TableComponent.jsx";
 import useApi from "../../hooks/useApi.js";
 import "./MainPage.scss";
@@ -96,33 +97,38 @@ function MainPage() {
           />
         ) : null}
       </PopupComponent>
-      <div className="filter">
-        <ButtonComponent
-          variant="secondary"
-          size="medium"
-          onClick={() => {
-            setPopupView("filter");
-            setIsPopupOpen(true);
-          }}
-        >
-          Фильтр
-        </ButtonComponent>
-        <div className="filter__info">
-          <div className="filter__item">Месяц: {isFilters.month}</div>
-          <div className="filter__item">Год: {isFilters.year}</div>
+      <header className="header">
+        <div className="header__content">
+          <div className="filter">
+            <ButtonComponent
+              variant="secondary"
+              size="medium"
+              onClick={() => {
+                setPopupView("filter");
+                setIsPopupOpen(true);
+              }}
+            >
+              Фильтр
+            </ButtonComponent>
+            <div className="filter__info">
+              <div className="filter__item">Месяц: {isFilters.month}</div>
+              <div className="filter__item">Год: {isFilters.year}</div>
+            </div>
+            <ButtonComponent
+              variant="danger"
+              size="medium"
+              onClick={() => {
+                setIsFilters((prev) => {
+                  return { ...prev, month: "", year: "" };
+                });
+              }}
+            >
+              Удалить фильтры
+            </ButtonComponent>
+          </div>
+          <SearchComponent isFilters={isFilters} setIsFilters={setIsFilters} />
         </div>
-        <ButtonComponent
-          variant="danger"
-          size="medium"
-          onClick={() => {
-            setIsFilters((prev) => {
-              return { ...prev, month: "", year: "" };
-            });
-          }}
-        >
-          Удалить фильтры
-        </ButtonComponent>
-      </div>
+      </header>
       {loading ? (
         "Загрузка ..."
       ) : (
