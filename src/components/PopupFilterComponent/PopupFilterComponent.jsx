@@ -1,12 +1,10 @@
-import { useState } from "react";
 import ButtonComponent from "../ButtonComponent/ButtonComponent.jsx";
 import "./PopupFilterComponent.scss";
 
-function PopupFilterComponent({ onCancel, onFilter }) {
-  const [filters, setFilters] = useState({ month: "", year: "2025" });
+function PopupFilterComponent({ onCancel, onFilter, isFilters, setIsFilters }) {
   function handleChange(e) {
     const { name, value } = e.target;
-    setFilters((prev) => {
+    setIsFilters((prev) => {
       return { ...prev, [name]: value };
     });
   }
@@ -43,7 +41,7 @@ function PopupFilterComponent({ onCancel, onFilter }) {
               <label className="date-filter__label">Месяц</label>
               <select
                 className="date-filter__select"
-                value={filters.month}
+                value={isFilters.month}
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -62,7 +60,7 @@ function PopupFilterComponent({ onCancel, onFilter }) {
               <label className="date-filter__label">Год</label>
               <select
                 className="date-filter__select"
-                value={filters.year}
+                value={isFilters.year}
                 onChange={(e) => {
                   handleChange(e);
                 }}
@@ -84,7 +82,7 @@ function PopupFilterComponent({ onCancel, onFilter }) {
             variant="success"
             size="large"
             onClick={() => {
-              onFilter(filters);
+              onFilter(isFilters);
             }}
           >
             Отфильтровать

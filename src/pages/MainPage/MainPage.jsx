@@ -13,6 +13,8 @@ function MainPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [popupView, setPopupView] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
+  const [isFilters, setIsFilters] = useState({ month: "", year: "2025" });
+
   const { loading, error, data, get, post, patch, del } = useApi();
   useEffect(() => {
     get();
@@ -69,6 +71,8 @@ function MainPage() {
           <PopupFilterComponent
             onCancel={handleClosePopup}
             onFilter={handleFilterData}
+            isFilters={isFilters}
+            setIsFilters={setIsFilters}
           />
         ) : null}
       </PopupComponent>
