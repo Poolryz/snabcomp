@@ -16,7 +16,13 @@ function useApi() {
       },
     })
       .then((res) => res.json())
-      .then((result) => setData(result))
+      .then((result) => {
+        if (!result) {
+          return setData([]);
+        } else {
+          setData(result);
+        }
+      })
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };

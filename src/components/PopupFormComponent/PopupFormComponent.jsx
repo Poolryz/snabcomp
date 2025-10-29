@@ -115,11 +115,9 @@ function PopupFormComponent({
         if (key === "invoicePdf" || key === "paymentPdf") {
           if (inputData[key] instanceof File) {
             formData.append(key, inputData[key]);
-            console.log(`Добавлен файл ${key}:`, inputData[key].name);
           }
         } else {
           formData.append(key, inputData[key]);
-          console.log(`Добавлено поле ${key}:`, inputData[key]);
         }
       }
     });
@@ -127,16 +125,6 @@ function PopupFormComponent({
     // Для PATCH запросов важно отправлять ID
     if (editing && inputData.id) {
       formData.append("id", inputData.id);
-    }
-
-    // Проверим что в FormData
-    console.log("FormData содержимое:");
-    for (let [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(`FormData: ${key} = File(${value.name})`);
-      } else {
-        console.log(`FormData: ${key} =`, value);
-      }
     }
 
     if (editing) {

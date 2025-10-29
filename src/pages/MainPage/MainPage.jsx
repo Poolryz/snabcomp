@@ -126,7 +126,11 @@ function MainPage() {
               Удалить фильтры
             </ButtonComponent>
           </div>
-          <SearchComponent isFilters={isFilters} setIsFilters={setIsFilters} />
+          <SearchComponent
+            data={data}
+            filteredData={filteredData}
+            setFilteredData={setFilteredData}
+          />
         </div>
       </header>
       {loading ? (

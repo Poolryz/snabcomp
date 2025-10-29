@@ -1,30 +1,73 @@
 import { useState } from "react";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import "./SearchComponent.scss";
-function SearchComponent({ isFilters, setIsFilters }) {
+function SearchComponent({ data, filteredData, setFilteredData }) {
   const [inputValue, setInputValue] = useState("");
-  const [isSearch, setIsSearch] = useState({
+  const [isParamSearch, setIsParamSearch] = useState({
     searchScope: "filtered",
     searchTarget: "all",
   });
   function handleChange(e) {
     const { name, value } = e.target;
-    setIsSearch((prev) => {
+    setIsParamSearch((prev) => {
       return { ...prev, [name]: value };
     });
   }
   function handleSearch() {
-    if (!inputValue) {
-      return;
+    let array = [];
+    if (isParamSearch.searchScope === "all") {
+      array = data.filter((item) => {
+        if (isParamSearch.searchTarget === "notes") {
+          if (item.note === null) {
+            return false;
+          }
+          const dataNote = item.note.toLowerCase();
+          const inputNote = inputValue.toLowerCase();
+          return dataNote.includes(inputNote);
+        } else if (isParamSearch.searchTarget === "organizations") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          return dataOrganizationName.includes(inputOrganizationName);
+        } else if (isParamSearch.searchTarget === "all") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          const noteMatch =
+            item.note &&
+            item.note.toLowerCase().includes(inputValue.toLowerCase());
+          return (
+            dataOrganizationName.includes(inputOrganizationName) || noteMatch
+          );
+        }
+      });
+    } else if (isParamSearch.searchScope === "filtered") {
+      array = filteredData.filter((item) => {
+        if (isParamSearch.searchTarget === "notes") {
+          if (item.note === null) {
+            return false;
+          }
+          const dataNote = item.note.toLowerCase();
+          const inputNote = inputValue.toLowerCase();
+          return dataNote.includes(inputNote);
+        } else if (isParamSearch.searchTarget === "organizations") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          return dataOrganizationName.includes(inputOrganizationName);
+        } else if (isParamSearch.searchTarget === "all") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          const noteMatch =
+            item.note &&
+            item.note.toLowerCase().includes(inputValue.toLowerCase());
+          return (
+            dataOrganizationName.includes(inputOrganizationName) || noteMatch
+          );
+        }
+      });
     }
-    let array = isFilters.map((item) => {
-      const dataOrganizationName = item.organization.toLowerCase();
-      const inputOrganizationName = inputValue.toLowerCase();
-      return dataOrganizationName.includes(inputOrganizationName);
-    });
-    setIsFilters(array);
+
+    setFilteredData(array);
+    console.log(array);
   }
-  console.log(isFilters);
 
   return (
     <div className="search">
@@ -42,7 +85,7 @@ function SearchComponent({ isFilters, setIsFilters }) {
           <select
             name="searchScope"
             id=""
-            value={isSearch.searchScope}
+            value={isParamSearch.searchScope}
             onChange={(e) => {
               handleChange(e);
             }}
@@ -56,7 +99,7 @@ function SearchComponent({ isFilters, setIsFilters }) {
           <select
             name="searchTarget"
             id=""
-            value={isSearch.searchTarget}
+            value={isParamSearch.searchTarget}
             onChange={(e) => {
               handleChange(e);
             }}
