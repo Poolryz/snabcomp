@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import FilterComponent from "../../components/FilterComponent/FilterComponent.jsx";
 import PopupComponent from "../../components/PopupComponent/PopupComponent.jsx";
-import PopupFilterComponent from "../../components/PopupFilterComponent/PopupFilterComponent.jsx";
-import PopupFormComponent from "../../components/PopupFormComponent/PopupFormComponent.jsx";
 import SearchComponent from "../../components/SearchComponent/SearchComponent.jsx";
 import TableComponent from "../../components/TableComponent/TableComponent.jsx";
 import useApi from "../../hooks/useApi.js";
+import usePopup from "../../hooks/usePopup/usePopup.js";
 import "./MainPage.scss";
 
 function MainPage() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // Главная задача отображать все элементы
+  const [isSearchData, setIsSearchData] = useState(null);
   const [initialData, setInitialData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [popupView, setPopupView] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const [isFilters, setIsFilters] = useState({
     month: String(new Date().getMonth() + 1).padStart(2, "0"),
@@ -20,6 +20,15 @@ function MainPage() {
   });
 
   const { loading, error, data, get, post, patch, del } = useApi();
+  const {
+    isPopupOpen,
+    setIsPopupOpen,
+    ClosePopup,
+    title,
+    setTitle,
+    popupView,
+    setPopupView,
+  } = usePopup();
   useEffect(() => {
     get();
   }, []);
@@ -77,6 +86,12 @@ function MainPage() {
     <>
       <PopupComponent
         isOpen={isPopupOpen}
+        onClose={ClosePopup}
+        title={title}
+        popupView={popupView}
+      />
+      {/* <PopupComponent
+        isOpen={isPopupOpen}
         onClose={handleClosePopup}
         title={isEditing ? "Редактировать запись" : "Добавить запись"}
       >
@@ -96,41 +111,22 @@ function MainPage() {
             setIsFilters={setIsFilters}
           />
         ) : null}
-      </PopupComponent>
+      </PopupComponent> */}
       <header className="header">
         <div className="header__content">
-          <div className="filter">
-            <ButtonComponent
-              variant="secondary"
-              size="medium"
-              onClick={() => {
-                setPopupView("filter");
-                setIsPopupOpen(true);
-              }}
-            >
-              Фильтр
-            </ButtonComponent>
-            <div className="filter__info">
-              <div className="filter__item">Месяц: {isFilters.month}</div>
-              <div className="filter__item">Год: {isFilters.year}</div>
-            </div>
-            <ButtonComponent
-              variant="danger"
-              size="medium"
-              onClick={() => {
-                setIsFilters((prev) => {
-                  return { ...prev, month: "", year: "" };
-                });
-              }}
-            >
-              Удалить фильтры
-            </ButtonComponent>
-          </div>
-          <SearchComponent
-            data={data}
-            filteredData={filteredData}
-            setFilteredData={setFilteredData}
-          />
+          <FilterComponent isFilters={isFilters} />
+          <ButtonComponent
+            variant="danger"
+            size="medium"
+            onClick={() => {
+              setIsFilters((prev) => {
+                return { ...prev, month: "", year: "" };
+              });
+            }}
+          >
+            Удалить фильтры
+          </ButtonComponent>
+          <SearchComponent setIsSearchData={setIsSearchData} />
         </div>
       </header>
       {loading ? (
@@ -139,16 +135,17 @@ function MainPage() {
         <>
           {" "}
           <TableComponent
-            data={filteredData || data}
+            data={isSearchData || filteredData || data}
             deleteFunc={del}
             setForm={handleSetForm}
             setPopupView={setPopupView}
           />{" "}
           <ButtonComponent
             variant="primary"
-            onClick={(e) => {
+            onClick={() => {
+              setIsPopupOpen(true);
               setPopupView("form");
-              handleOpenPopup(e);
+              setTitle("Форма нового счета");
             }}
           >
             Добавить строчку

@@ -1,14 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainPage from "./pages/MainPage/MainPage.jsx";
 import "./App.scss";
+import MainPage from "./pages/MainPage/MainPage.jsx";
+import TableItemPage from "./pages/TableItemPage/TableItemPage.jsx";
 
 function App() {
-  const routerMainPage = createBrowserRouter([
+  const router = createBrowserRouter([
     { path: "/", element: <MainPage /> },
+    { path: "/items", element: <TableItemPage /> },
   ]);
   return (
     <>
-      <RouterProvider router={routerMainPage} />
+      <RouterProvider router={router} />
     </>
   );
 }

@@ -1,7 +1,12 @@
+import { useState } from "react";
 import ButtonComponent from "../ButtonComponent/ButtonComponent.jsx";
 import "./PopupFilterComponent.scss";
 
-function PopupFilterComponent({ onCancel, onFilter, isFilters, setIsFilters }) {
+function PopupFilterComponent({ onCancel, onFilter }) {
+  const [isFilters, setIsFilters] = useState({
+    month: String(new Date().getMonth() + 1).padStart(2, "0"),
+    year: new Date().getFullYear(),
+  });
   function handleChange(e) {
     const { name, value } = e.target;
     setIsFilters((prev) => {
@@ -31,9 +36,7 @@ function PopupFilterComponent({ onCancel, onFilter, isFilters, setIsFilters }) {
   return (
     <div className="date-filter-popup">
       <div className="date-filter__content">
-        <div className="date-filter__header">
-          <h3 className="date-filter__title">Фильтр по дате</h3>
-        </div>
+        <div className="date-filter__header"></div>
 
         <div className="date-filter__body">
           <div className="date-filter__row">
