@@ -1,12 +1,57 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import useApi from "../../hooks/useApi.js";
 import ButtonComponent from "../ButtonComponent/ButtonComponent.jsx";
 import "./PopupFilterComponent.scss";
 
-function PopupFilterComponent({ onCancel, onFilter, isFilters, setIsFilters }) {
+function PopupFilterComponent({ onCancel, setFilteredData }) {
+  const [filterParams, setFilterParams] = useSearchParams();
+  const [isFilters, setIsFilters] = useState({
+    month:
+      filterParams.get("fm") ||
+      String(new Date().getMonth() + 1).padStart(2, "0"),
+    year: filterParams.get("fy") || new Date().getFullYear(),
+  });
+
+  const { data, get } = useApi();
+  useEffect(() => {
+    get();
+  }, []);
   function handleChange(e) {
     const { name, value } = e.target;
     setIsFilters((prev) => {
       return { ...prev, [name]: value };
     });
+  }
+  function handleFilterData(isFilters) {
+    const { month, year } = isFilters;
+    let filtered;
+    if (month && year) {
+      filtered = data
+        .filter((item) => {
+          const yearItem = item.invoiceDate.slice(0, 4);
+          return yearItem == year;
+        })
+        .filter((item) => {
+          const monthItem = item.invoiceDate.slice(5, 7);
+          return monthItem == month;
+        });
+    } else if (!month && !year) {
+      filtered = data;
+    } else if (!month) {
+      filtered = data.filter((item) => {
+        const yearItem = item.invoiceDate.slice(0, 4);
+        return yearItem == year;
+      });
+    } else if (!year) {
+      filtered = data.filter((item) => {
+        const monthItem = item.invoiceDate.slice(5, 7);
+        return monthItem == month;
+      });
+    }
+    setFilterParams({ fm: month, fy: year });
+    setFilteredData(filtered);
+    onCancel();
   }
 
   const months = [
@@ -82,10 +127,21 @@ function PopupFilterComponent({ onCancel, onFilter, isFilters, setIsFilters }) {
             variant="success"
             size="large"
             onClick={() => {
-              onFilter(isFilters);
+              handleFilterData(isFilters);
             }}
           >
             Отфильтровать
+          </ButtonComponent>
+          <ButtonComponent
+            variant="danger"
+            size="medium"
+            onClick={() => {
+              setFilterParams({});
+              setFilteredData(null);
+              onCancel();
+            }}
+          >
+            Удалить фильтры
           </ButtonComponent>
         </div>
       </div>
