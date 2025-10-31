@@ -1,7 +1,5 @@
-import PopupFilterComponent from "../PopupFilterComponent/PopupFilterComponent";
-import PopupFormComponent from "../PopupFormComponent/PopupFormComponent";
 import "./PopupComponent.scss";
-function PopupComponent({ isOpen, onClose, title, popupView }) {
+function PopupComponent({ isOpen, onClose, children, title }) {
   if (!isOpen) return null;
   return (
     <div className="popup">
@@ -14,24 +12,7 @@ function PopupComponent({ isOpen, onClose, title, popupView }) {
           </button>
         </div>
 
-        <div className="popup__body">
-          {popupView === "form" ? (
-            <PopupFormComponent
-              onCancel={onClose}
-              // onSubmit={post}
-              // onEditing={patch}
-              // initialData={initialData}
-              // editing={isEditing}
-            />
-          ) : popupView === "filter" ? (
-            <PopupFilterComponent
-            // onCancel={handleClosePopup}
-            // onFilter={handleFilterData}
-            // isFilters={isFilters}
-            // setIsFilters={setIsFilters}
-            />
-          ) : null}
-        </div>
+        <div className="popup__body">{children}</div>
       </div>
     </div>
   );

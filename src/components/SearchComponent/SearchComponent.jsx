@@ -1,19 +1,12 @@
-import { useEffect, useState } from "react";
-import useApi from "../../hooks/useApi";
+import { useState } from "react";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import "./SearchComponent.scss";
-function SearchComponent({ setIsSearchData }) {
-  // Главная задача производить поиск по данным элементам.
-
+function SearchComponent({ data, filteredData, setFilteredData }) {
   const [inputValue, setInputValue] = useState("");
   const [isParamSearch, setIsParamSearch] = useState({
-    searchScope: "all",
+    searchScope: "filtered",
     searchTarget: "all",
   });
-  const { data, get } = useApi();
-  useEffect(() => {
-    get();
-  }, []);
   function handleChange(e) {
     const { name, value } = e.target;
     setIsParamSearch((prev) => {
@@ -46,8 +39,33 @@ function SearchComponent({ setIsSearchData }) {
           );
         }
       });
+    } else if (isParamSearch.searchScope === "filtered") {
+      array = filteredData.filter((item) => {
+        if (isParamSearch.searchTarget === "notes") {
+          if (item.note === null) {
+            return false;
+          }
+          const dataNote = item.note.toLowerCase();
+          const inputNote = inputValue.toLowerCase();
+          return dataNote.includes(inputNote);
+        } else if (isParamSearch.searchTarget === "organizations") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          return dataOrganizationName.includes(inputOrganizationName);
+        } else if (isParamSearch.searchTarget === "all") {
+          const dataOrganizationName = item.organization.toLowerCase();
+          const inputOrganizationName = inputValue.toLowerCase();
+          const noteMatch =
+            item.note &&
+            item.note.toLowerCase().includes(inputValue.toLowerCase());
+          return (
+            dataOrganizationName.includes(inputOrganizationName) || noteMatch
+          );
+        }
+      });
     }
-    setIsSearchData(array);
+
+    setFilteredData(array);
     console.log(array);
   }
 
@@ -72,6 +90,7 @@ function SearchComponent({ setIsSearchData }) {
               handleChange(e);
             }}
           >
+            <option value="filtered">С заданым фильтром</option>
             <option value="all">Во всех счетах</option>
           </select>
         </div>

@@ -8,7 +8,6 @@ function ButtonComponent({
   size = "medium",
 }) {
   return (
-    // Главная задача отправлять функцию действия
     <button
       className={`
         button
