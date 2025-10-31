@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import PopupComponent from "../../components/PopupComponent/PopupComponent.jsx";
 import PopupFilterComponent from "../../components/PopupFilterComponent/PopupFilterComponent.jsx";
@@ -9,23 +10,18 @@ import useApi from "../../hooks/useApi.js";
 import "./MainPage.scss";
 
 function MainPage() {
+  const [filterParams] = useSearchParams();
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [initialData, setInitialData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [popupView, setPopupView] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
-  const [isFilters, setIsFilters] = useState({
-    month: String(new Date().getMonth() + 1).padStart(2, "0"),
-    year: new Date().getFullYear(),
-  });
 
   const { loading, error, data, get, post, patch, del } = useApi();
   useEffect(() => {
     get();
   }, []);
-  useEffect(() => {
-    handleFilterData(isFilters);
-  }, [data, isFilters]);
   function handleSetForm(id) {
     const findData = data.find((item) => {
       return item.id == id;
@@ -42,35 +38,6 @@ function MainPage() {
     setIsPopupOpen(false);
     setInitialData({});
     setPopupView(null);
-  }
-  function handleFilterData(isFilters) {
-    const { month, year } = isFilters;
-    let filtered;
-    if (month && year) {
-      filtered = data
-        .filter((item) => {
-          const yearItem = item.invoiceDate.slice(0, 4);
-          return yearItem == year;
-        })
-        .filter((item) => {
-          const monthItem = item.invoiceDate.slice(5, 7);
-          return monthItem == month;
-        });
-    } else if (!month && !year) {
-      filtered = data;
-    } else if (!month) {
-      filtered = data.filter((item) => {
-        const yearItem = item.invoiceDate.slice(0, 4);
-        return yearItem == year;
-      });
-    } else if (!year) {
-      filtered = data.filter((item) => {
-        const monthItem = item.invoiceDate.slice(5, 7);
-        return monthItem == month;
-      });
-    }
-    setFilteredData(filtered);
-    handleClosePopup();
   }
 
   return (
@@ -91,9 +58,7 @@ function MainPage() {
         ) : popupView === "filter" ? (
           <PopupFilterComponent
             onCancel={handleClosePopup}
-            onFilter={handleFilterData}
-            isFilters={isFilters}
-            setIsFilters={setIsFilters}
+            setFilteredData={setFilteredData}
           />
         ) : null}
       </PopupComponent>
@@ -111,20 +76,9 @@ function MainPage() {
               Фильтр
             </ButtonComponent>
             <div className="filter__info">
-              <div className="filter__item">Месяц: {isFilters.month}</div>
-              <div className="filter__item">Год: {isFilters.year}</div>
+              <div className="filter__item">Месяц:{filterParams.get("fm")}</div>
+              <div className="filter__item">Год:{filterParams.get("fy")}</div>
             </div>
-            <ButtonComponent
-              variant="danger"
-              size="medium"
-              onClick={() => {
-                setIsFilters((prev) => {
-                  return { ...prev, month: "", year: "" };
-                });
-              }}
-            >
-              Удалить фильтры
-            </ButtonComponent>
           </div>
           <SearchComponent
             data={data}
